@@ -31,8 +31,8 @@ I_t(:,:,1) = floor(double(rgb2gray(imread(sprintf(char(strcat('D:\\Education\\Pr
 % siz_X = size(I(:,:,1));
 
 % Choosing ROI in a frame
-init_xy = [36 8]; 
-siz_X = [3 3];
+init_xy = [1 1]; 
+siz_X = [240 320];
 I(:,:,1) = I_t(init_xy(1):init_xy(1)+siz_X(1)-1,init_xy(2):init_xy(2)+siz_X(2)-1,1);
 
 % Declaration and Size Definition of required Matrix

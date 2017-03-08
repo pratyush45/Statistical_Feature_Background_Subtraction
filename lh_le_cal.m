@@ -55,7 +55,6 @@ end
                     tmp_y = tmp_y + offset_dir(2);
                  end            
             end
-            comatx(:,:)
             comatx(:,:) = comatx(:,:) + comatx(:,:).'; % Symmetric Cooccurrence Matrix
             comatx_sum = sum(sum(comatx(:,:)));
             C = double(comatx(:,:))./comatx_sum;  
