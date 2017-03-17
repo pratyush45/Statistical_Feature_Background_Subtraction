@@ -30,7 +30,6 @@ tmp = zeros(1,3,siz_kr(1),siz_kr(2));
             % 2 Loops in [Intensity Homogenity Entropy] for each pixel(i,j)
             % This Loop Performs Operation Similar to (f(k) - U(x,y))
             for k=1:3 
-%                 padd_X(i-flr(1):i+flr(1),j-flr(2):j+flr(2),k)
                 tmp_var = padd_X(i-flr(1):i+flr(1),j-flr(2):j+flr(2),k);
                 mfv_mat(1,k,i-flr(1),j-flr(2)) = sum(sum(tmp_var))./(siz_kr(1)*siz_kr(2));
                 tmp(1,k,:,:) = abs(tmp_var -  mfv_mat(1,k,i-flr(1),j-flr(2)));      

@@ -1,4 +1,4 @@
-function [LH,LE] = lh_le_cal(X,offset,siz_kr,siz_X,max_val_X)
+function [LH,LE] = lh_le_cal(X,offset,siz_kr,siz_X,norm_max_X)
 sprintf('lh_le_cal : begin')
 tic;
 % Direction Convention
@@ -9,7 +9,7 @@ tic;
 offset_dir = offset./max(abs(offset)); % Direction of Search
 flr = floor(siz_kr/2);
 padd_X= padarray(X,[flr flr],0,'both'); % Padding the Matrix "X" with zeros
-comatx = zeros(max_val_X+1,max_val_X+1); % Declaring and Defining the size of Cooccurence Matrix
+comatx = zeros(norm_max_X+1,norm_max_X+1); % Declaring and Defining the size of Cooccurence Matrix
 LH = zeros(siz_X(1),siz_X(2)); % Declaring and Defining the size of Local Homogenity Matrix
 LE = zeros(siz_X(1),siz_X(2)); % Declaring and Defining the size of Local Entropy Matrix
 k = [0 0];% Shift after reaching boundary of a matrix (always opposite to offset_dir variable)
@@ -58,9 +58,9 @@ end
             comatx(:,:) = comatx(:,:) + comatx(:,:).'; % Symmetric Cooccurrence Matrix
             comatx_sum = sum(sum(comatx(:,:)));
             C = double(comatx(:,:))./comatx_sum;  
-            LH(i-flr,j-flr) = localhomogeneity(C,max_val_X+1); % Local Homogenity Calculation
-            LE(i-flr,j-flr) = localentropy(C,max_val_X+1); % Local Entropy Calculation
-            comatx = zeros(max_val_X+1,max_val_X+1); % Resetting the values in Cooccurrence Matrix
+            LH(i-flr,j-flr) = localhomogeneity(C,norm_max_X+1); % Local Homogenity Calculation
+            LE(i-flr,j-flr) = localentropy(C,norm_max_X+1); % Local Entropy Calculation
+            comatx = zeros(norm_max_X+1,norm_max_X+1); % Resetting the values in Cooccurrence Matrix
         end
     end
 toc
