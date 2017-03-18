@@ -35,7 +35,7 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 					w_mf(1,k,i,j) = (1-alpha)*w_mf(1,k,i,j); % Weight is slightly lower
 				end
 			end
-			mhlb_dist
+			%mhlb_dist
 			w_mf(1,:,i,j) = w_mf(1,:,i,j)./sum(w_mf(1,:,i,j));
 			
 			if (match == 0)

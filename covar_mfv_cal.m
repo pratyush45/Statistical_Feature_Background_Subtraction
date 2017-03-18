@@ -1,6 +1,6 @@
 function [covar_mat,mfv_mat] = covar_mfv_cal(int_mat,hom_mat,ent_mat,siz_kr,siz_input)
-sprintf('covar_cal : begin')
-tic;
+%sprintf('covar_cal : begin')
+%tic;
 
 % Relevant Variables are Declared and Defined
 flr = floor(siz_kr./2);
@@ -41,8 +41,8 @@ tmp = zeros(1,3,siz_kr(1),siz_kr(2));
             covar_mat(:,:,i-flr(1),j-flr(2)) = covar_mat(:,:,i-flr(1),j-flr(2))./(siz_kr(1)*siz_kr(2));
         end   
     end
-toc
-sprintf('covar_cal : end')
+%toc
+%sprintf('covar_cal : end')
 end
 
 
