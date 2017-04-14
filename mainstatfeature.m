@@ -21,7 +21,7 @@ norm = 32; % Normalizing the values in an Image Matrix
 % [0 -1] = Direction left starting from [siz_kr siz_kr]
 offset = [0 2]; % Direction of parsing the Image Matrix
 norm_max_X = floor(255/norm); % Max Value present in Image Matrix
-tmp_var = 0; % Temporary Variable here
+tmp_var = 0; % Temporary Variable 
 
 % GMM Initialization Constants
 Tp = 3; % Distance Threshold
