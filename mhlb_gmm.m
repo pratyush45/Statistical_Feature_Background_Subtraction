@@ -1,6 +1,7 @@
 function[fg,mfv_mat_mf,covar_mat_mf,w_mf] = mhlb_gmm(mfv_mat,covar_mat,mfv_mat_mf,covar_mat_mf,w_mf,...
     siz_X,no_of_model_frames,no_of_bg_frames,alpha,Tp,Tb)
-
+sprintf('mhlb_gmm : begin')
+tic;
 fg = zeros(siz_X(1),siz_X(2)); % Output Frame
 mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current Pixel wrt Model Frames
 
@@ -45,7 +46,7 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 			end
 			
 			% sort weight values in decreasing order			
-            [~,rank_ind] = sort(w_mf(1,:,i,j));
+            [~,rank_ind] = sort(w_mf(1,:,i,j),'descend');
 			
 			% Foreground Detection
 			
@@ -65,5 +66,7 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 				k = k+1;
 			end
 		end
-     end
+    end
+toc
+sprintf('mhlb_gmm : end')
 end

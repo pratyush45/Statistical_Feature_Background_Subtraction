@@ -1,6 +1,6 @@
 function [LH,LE] = lh_le_cal(X,offset,siz_kr,siz_X,norm_max_X)
-%sprintf('lh_le_cal : begin')
-%tic;
+sprintf('lh_le_cal : begin')
+tic;
 % Direction Convention
 % [1 0] = Direction down starting from [1 1]
 % [0 1] = Direction right starting from [1 1]
@@ -63,8 +63,8 @@ end
             comatx = zeros(norm_max_X+1,norm_max_X+1); % Resetting the values in Cooccurrence Matrix
         end
     end
-%toc
-%sprintf('lh_le_cal : end')
+toc
+sprintf('lh_le_cal : end')
 end
 
 

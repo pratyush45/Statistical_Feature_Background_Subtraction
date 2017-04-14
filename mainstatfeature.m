@@ -7,7 +7,7 @@ warning('off','all'); % Turning on all warnings
 no_of_images = 1180; % Number of Images to consider for computation
 model_frame_no = 1; % Begin Frame Number for a dataset
 no_of_model_frames = 2; % Number of Model Frames
-no_of_bg_frames = 2; % Number of Background Frames to consider
+no_of_bg_frames = 1; % Number of Background Frames to consider
 env = {'baseline','highway','pedestrians';'dynamic background','canoe','fountain01'};
 prompt = ' 1.baseline (1.highway 2.pedestrians) \n 2.dynamic background (1.canoe 2.fountain01)';
 d_choice = input(strcat(prompt,'\n =')); % dataset choice
@@ -21,12 +21,12 @@ norm = 32; % Normalizing the values in an Image Matrix
 % [0 -1] = Direction left starting from [siz_kr siz_kr]
 offset = [0 2]; % Direction of parsing the Image Matrix
 norm_max_X = floor(255/norm); % Max Value present in Image Matrix
-tmp_var = 0; % Temporary Variable
+tmp_var = 0; % Temporary Variable here
 
 % GMM Initialization Constants
-Tp = 2; % Distance Threshold
-Tb = 0.8; % Weight Threshold
-alpha = 0.01; % Learning Rate
+Tp = 3; % Distance Threshold
+Tb = 0.9; % Weight Threshold
+alpha = 0.1; % Learning Rate
 
 % Must Be Odd Values
 siz_kr = 3; % Size of Kernel for parsing each pixel in the Image Matrix in "glcmcal" function
@@ -38,8 +38,8 @@ I_n = double(rgb2gray(imread(sprintf(char(strcat(dataset_path,env(d_choice,1),'\
 siz_X = size(I_n);
 
 % Choosing ROI in a frame
-init_xy = [1 1]; 
-%siz_X = [30 40];
+init_xy = [80 80]; 
+siz_X = [90 160];
 
 I = I_n(init_xy(1):init_xy(1)+siz_X(1)-1,init_xy(2):init_xy(2)+siz_X(2)-1);
 
