@@ -13,7 +13,7 @@ padd_X(:,:,2) = padarray(ent_mat,[flr(1) flr(2)],0,'both');
 padd_X(:,:,3) = padarray(hom_mat,[flr(1) flr(2)],0,'both');
 
 iter_lr = [flr(1)+1 flr(2)+1]; % Iteration Variable for Outer Loop
-covar_mat = zeros(max(siz_kr),max(siz_kr),siz_input(1),siz_input(2)); % Covariance Matrix
+covar_mat = zeros(3,3,siz_input(1),siz_input(2)); % Covariance Matrix
 mfv_mat = zeros(1,3,siz_input(1),siz_input(2)); % Mean Feature Vector Matrix
 
 % Matrix for temporary use
@@ -38,6 +38,7 @@ tmp = zeros(1,3,siz_kr(1),siz_kr(2));
                 end
             end
             % Dividing the summation by region X*Y
+            %covar_mat(:,:,i-flr(1),j-flr(2))
             covar_mat(:,:,i-flr(1),j-flr(2)) = covar_mat(:,:,i-flr(1),j-flr(2))./(siz_kr(1)*siz_kr(2));
         end   
     end

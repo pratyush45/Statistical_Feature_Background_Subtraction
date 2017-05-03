@@ -14,14 +14,14 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 				% Mahanalobis Distance               
 				tmp_mat = mfv_mat(1,:,i,j) - mfv_mat_mf(1,:,i,j,k); % Operation similar to (U(i,j)-Um(i,j))
 				inv_mat_mf = inv(covar_mat_mf(:,:,i,j,k));
-				tmp_var = sqrt(abs(tmp_mat*inv_mat_mf*tmp_mat.'));
+				tmp_var = sqrt(abs((tmp_mat/inv_mat_mf)*tmp_mat.'));
 				if ~(isnan(tmp_var) || tmp_var == inf) % Discarding Extreme Values
 					if ~(tmp_var > 255 || tmp_var < 0.001) % Discarding Unecessary Small or Large Values
 						mhlb_dist(k) = tmp_var;
 					end
 				end
 				
-			% Code for GMM Implementation begins here
+				% Code for GMM Implementation begins here
 				
 				if(mhlb_dist(k)) <= Tp
 					
@@ -29,14 +29,15 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 					
 					% Update Weight, Mean Feature Vector and Covariance Matrix
 					w_mf(1,k,i,j) = (1-alpha)*w_mf(1,k,i,j) + alpha;
-					p = alpha/w_mf(1,k,i,j);
+					% p = alpha/w_mf(1,k,i,j);
+					p = alpha;
 					mfv_mat_mf(1,:,i,j,k) = (1-p)*mfv_mat_mf(1,:,i,j,k) + p*mfv_mat(1,:,i,j);
 					covar_mat_mf(:,:,i,j,k) = covar_mat_mf(:,:,i,j,k).*(1-p) + covar_mat(:,:,i,j).*p;
 				else
 					w_mf(1,k,i,j) = (1-alpha)*w_mf(1,k,i,j); % Weight is slightly lower
 				end
 			end
-			%mhlb_dist
+	
 			w_mf(1,:,i,j) = w_mf(1,:,i,j)./sum(w_mf(1,:,i,j));
 			
 			if (match == 0)
@@ -45,9 +46,39 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 				covar_mat_mf(:,:,i,j,min_w_index) = covar_mat(:,:,i,j);
 			end
 			
-			% sort weight values in decreasing order			
-            [~,rank_ind] = sort(w_mf(1,:,i,j),'descend');
-			
+% 			% sort weight values in decreasing order			
+%             [~,rank_ind] = sort(w_mf(1,:,i,j),'descend');
+            
+            rank = zeros(1,3);
+            
+            % calculate component rank     
+            
+            for k=1:no_of_model_frames
+                %size(w_mf(1,k,i,j))
+                %size(sqrt(trace(covar_mat_mf(:,:,i,j,k))))
+                rank(:,:,k) = w_mf(1,k,i,j)./sqrt(trace(covar_mat_mf(:,:,i,j,k)));         
+            end
+            rank_ind = [1:1:no_of_model_frames];
+            
+            % sort rank values
+            for k=2:no_of_model_frames               
+                for m=1:(k-1)
+                    
+                    if (rank(:,:,k) > rank(:,:,m))                     
+                        % swap max values
+                        rank_temp = rank(:,:,m);  
+                        rank(:,:,m) = rank(:,:,k);
+                        rank(:,:,k) = rank_temp;
+                        
+                        % swap max index values
+                        rank_ind_temp = rank_ind(m);  
+                        rank_ind(m) = rank_ind(k);
+                        rank_ind(k) = rank_ind_temp;    
+
+                    end
+                end
+            end
+            
 			% Foreground Detection
 			
 			match = 0;
@@ -60,12 +91,13 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
 						fg(i,j) = 0;
 						match = 1;
 					else
-						fg(i,j) = 255;     
+						fg(i,j) = 1;     
 					end
 				end
 				k = k+1;
-			end
-		end
+            end
+            mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current Pixel wrt Model Frames
+        end
     end
 toc
 sprintf('mhlb_gmm : end')
