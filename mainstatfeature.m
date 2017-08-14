@@ -23,6 +23,8 @@ norm = 32; % Normalizing the values in an Image Matrix
 offset = [0 1]; % Direction of parsing the Image Matrix
 norm_max_X = floor(255/norm); % Max Value present in Image Matrix
 tmp_var = 0; % Temporary Variable 
+pix_graph = [50 50];
+k = 1; % Iter variable for pix_graph
 
 % GMM Initialization Constants
 Tp = 20;                                                                                                                                                                                                                                                             ; % Distance Threshold
@@ -43,11 +45,7 @@ siz_X = size(I_n);
 
 %Highway
 %init_xy = [55 120]; 
-%siz_X = [90 140];
-
-%Pedestrians
-%init_xy = [55 110];
-%siz_X = [105 70];
+%siz_X = [90 140];aasaa
 
 %Canoe
 init_xy = [50 50];
@@ -76,6 +74,7 @@ for n = 2:no_of_model_frames
   I = I_n(init_xy(1):init_xy(1)+siz_X(1)-1,init_xy(2):init_xy(2)+siz_X(2)-1);
   [LH,LE] = lh_le_cal(floor(I./norm),offset,siz_kr,siz_X,norm_max_X); 
   [covar_mat_mf(:,:,:,:,n),mfv_mat_mf(1,:,:,:,n)] = covar_mfv_cal(I,LH,LE,region_XY,siz_X);
+  
 end
 
 % Create Video Object
@@ -105,6 +104,8 @@ for n=no_of_model_frames + 1:no_of_images
             y(i,j) = mfv_mat_mf(1,1,i,j,2);
         end
     end
+    graph_plot(1,:,k) = mfv_mat_mf(1,:,pix_graph(1),pix_graph(2),1);
+    k = k + 1;
     imshow(uint8(x));
     fg = fg.*255;
     writeVideo(aviobj,uint8(fg));

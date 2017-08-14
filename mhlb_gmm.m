@@ -54,8 +54,6 @@ mhlb_dist = zeros(1,no_of_model_frames); % Mahalanobis Distance of Each Current 
             % calculate component rank     
             
             for k=1:no_of_model_frames
-                %size(w_mf(1,k,i,j))
-                %size(sqrt(trace(covar_mat_mf(:,:,i,j,k))))
                 rank(:,:,k) = w_mf(1,k,i,j)./sqrt(trace(covar_mat_mf(:,:,i,j,k)));         
             end
             rank_ind = [1:1:no_of_model_frames];
